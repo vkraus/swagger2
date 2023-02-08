@@ -1,0 +1,322 @@
+openapi: 3.0.2
+info:
+  title: Account Validation Interface (AVI) API
+  description: |-
+    API for:
+    * retrieving information from AVI about identity, which can be used in form of JSON or XML
+    
+    Change log
+    * 0.2 - added info about API, updated JSON/XML documentation
+    * 0.1 - first draw
+    
+    
+  contact:
+    name: Marcel Vanek
+  version: 0.2.0
+servers:
+  - url: https://dv12n-eudsdev.novartis.intra:9402
+    description: Pre-DEV for internal use with JSON
+  - url: https://dv12n-eudsdev.novartis.intra:9402
+    description: Pre-DEV for internal use with XML
+
+paths:
+  /json/Cisco_Information_Services/AVI_OPERATIONS.SEARCH_BY_IDENTIFIER:
+    description: API for retrieving information about user from AVI
+    get:
+      summary: JSON based API call
+      description: Retrieve information from AVI based input parameter - email address, UniqueID, Active Directory Account, AD SAM 
+      security:
+        - basicAuth: []
+      parameters:
+        - in: query
+          name: P_IDENTIFIER
+          schema: 
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseJSON'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
+          
+  /xml/Cisco_Information_Services/AVI_OPERATIONS.SEARCH_BY_IDENTIFIER:
+    description: API for retrieving information about user from AVI
+    get:
+      summary: XML based API call
+      description: Retrieve information from AVI based input parameter - email address, UniqueID, Active Directory Account, AD SAM
+      security:
+        - basicAuth: []
+      parameters:
+        - in: query
+          name: P_IDENTIFIER
+          schema: 
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseXML'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '405':
+          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+#API GW
+    ResponseJSON:
+      description: Body of 200 OK request 
+      type: object
+      required:
+        - identifier
+        - unique_id
+        - per_hr_db_name
+        - site_code
+        - div_code
+        - oplevel1_code
+        - oplevel1_desc
+        - oplevel2_code
+        - oplevel2_desc
+        - oplevel3_code
+        - oplevel3_desc
+        - cost_center_type
+        - cost_center_number
+        - oper_manager_uid
+        - supervisor_id
+        - identity_status
+        - lc_state
+        - lc_date
+        - mod_date
+        - acc_sam
+        - acc_status
+        - acc_type
+        - smtp_primary
+        - last_logon
+        - result_overall_status
+        - result_recommended_action
+      properties:
+        identifier:
+          type: string
+          description: based on identifier; can be email, AD Account, uniqueID
+          example: fatma_bilgen-1.belduz@n-adcbd.com
+        unique_id:
+          type: string
+          example: BELDUFA2
+        per_hr_db_name:
+          type: string
+          example: HRCORE
+        site_code:
+          type: string
+          example: tris
+        div_code:
+          type: string
+          example: GD
+        oplevel1_code:
+          type: integer
+          example: 247
+        oplevel1_desc:
+          type: string
+          example: REG AFFAIRS GDD
+        oplevel2_code:
+          type: integer
+          example: 2392
+        oplevel2_desc:
+          type: string
+          example: MOST OF WORLD RA GDD
+        oplevel3_code:
+          type: integer
+          example: 09973
+        oplevel3_desc:
+          type: string
+          example: MOST OF WORLD RA GDD
+        cost_center_type:
+          type: string
+          example: HRC - 11
+        cost_center_number:
+          type: integer
+          example: 0117521000
+        oper_manager_uid: 
+          type: string
+          example: TASCIRE1
+        supervisor_id: 
+          type: string
+          example: TASCIRE1
+        identity_status:
+          type: string
+          example: Active
+        lc_state:
+          type: string
+          example: ACTIVE
+        lc_date:
+          type: string
+          example: NULL
+        mod_date:
+          type: string
+          example: 2021-04-17T05:59:04.000Z
+        acc_sam:
+          type: string
+          example: BELDUFA2
+        acc_status:
+          type: string
+          example: ACTIVE
+        acc_type:
+          type: string
+          example: STNU
+        smtp_primary: 
+          type: string
+          example: fatma_bilgen-1.belduz@n-adcbd.com
+        last_logon:
+          type: string
+          example: NULL
+        result_overall_status: 
+          type: string
+          example: POSSIBLY REVOKED
+        result_recommend_action:
+          type: string
+          example: CONSIDER REVOKE
+    ResponseXML:
+      description: Body of 200 OK request 
+      type: object
+      required:
+        - identifier
+        - unique_id
+        - per_hr_db_name
+        - site_code
+        - div_code
+        - oplevel1_code
+        - oplevel1_desc
+        - oplevel2_code
+        - oplevel2_desc
+        - oplevel3_code
+        - oplevel3_desc
+        - cost_center_type
+        - cost_center_number
+        - oper_manager_uid
+        - supervisor_id
+        - identity_status
+        - lc_state
+        - lc_date
+        - mod_date
+        - acc_sam
+        - acc_status
+        - acc_type
+        - smtp_primary
+        - last_logon
+        - result_overall_status
+        - result_recommended_action
+      properties:
+        identifier:
+          type: string
+          description: based on identifier; can be email, AD Account, uniqueID
+          example: fatma_bilgen-1.belduz@n-adcbd.com
+        unique_id:
+          type: string
+          example: BELDUFA2
+        per_hr_db_name:
+          type: string
+          example: HRCORE
+        site_code:
+          type: string
+          example: tris
+        div_code:
+          type: string
+          example: GD
+        oplevel1_code:
+          type: integer
+          example: 247
+        oplevel1_desc:
+          type: string
+          example: REG AFFAIRS GDD
+        oplevel2_code:
+          type: integer
+          example: 2392
+        oplevel2_desc:
+          type: string
+          example: MOST OF WORLD RA GDD
+        oplevel3_code:
+          type: integer
+          example: 09973
+        oplevel3_desc:
+          type: string
+          example: MOST OF WORLD RA GDD
+        cost_center_type:
+          type: string
+          example: HRC - 11
+        cost_center_number:
+          type: integer
+          example: 0117521000
+        oper_manager_uid: 
+          type: string
+          example: TASCIRE1
+        supervisor_id: 
+          type: string
+          example: TASCIRE1
+        identity_status:
+          type: string
+          example: Active
+        lc_state:
+          type: string
+          example: ACTIVE
+        lc_date:
+          type: string
+          example: NULL
+        mod_date:
+          type: string
+          example: 2021-04-17T05:59:04.000Z
+        acc_sam:
+          type: string
+          example: BELDUFA2
+        acc_status:
+          type: string
+          example: ACTIVE
+        acc_type:
+          type: string
+          example: STNU
+        smtp_primary: 
+          type: string
+          example: fatma_bilgen-1.belduz@n-adcbd.com
+        last_logon:
+          type: string
+          example: NULL
+        result_overall_status: 
+          type: string
+          example: POSSIBLY REVOKED
+        result_recommend_action:
+          type: string
+          example: CONSIDER REVOKE
+
+
+    
